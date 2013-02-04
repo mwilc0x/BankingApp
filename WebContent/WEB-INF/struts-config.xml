@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="LoginForm" type="com.model.LoginForm">
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="pass" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="CustomerForm" type="com.model.CustomerForm">
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="address" type="java.lang.String" />
+			<form-property name="city" type="java.lang.String" />
+			<form-property name="state" type="java.lang.String" />
+			<form-property name="pin" type="java.lang.String" />
+			<form-property name="phone" type="java.lang.String" />
+			<form-property name="email" type="java.lang.String" />
+			<form-property name="pass" type="java.lang.String" />
+			<form-property name="question" type="java.lang.String" />
+			<form-property name="message" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="CheckAccountForm" type="com.model.CheckAccountForm">
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="type" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="DepositForm" type="com.model.DepositForm">
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="type" type="java.lang.String" />
+			<form-property name="balance" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="WithdrawalForm" type="com.model.WithdrawalForm">
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="type" type="java.lang.String" />
+			<form-property name="amount" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="RecoverForm" type="com.model.RecoverForm">
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="question" type="java.lang.String" />
+			<form-property name="pass" type="java.lang.String" />
+		</form-bean>
+
+		<form-bean name="TransactionBean" type="com.model.TransactionBean"></form-bean>
+	</form-beans>
+
+	<action-mappings>
+		<action input="/Login.jsp" name="LoginForm" path="/LoginAction"
+			scope="session" type="com.controller.LoginAction" parameter="method">
+			<forward name="success" path="/login_success.jsp" />
+			<forward name="failure" path="/login_fail.jsp" />
+		</action>
+
+		<action input="/new_user.jsp" name="CustomerForm" path="/CustomerAction"
+			scope="session" type="com.controller.CustomerAction" parameter="method">
+			<forward name="success" path="/login_success.jsp" />
+			<forward name="failure" path="/signup_fail.jsp" />
+			<forward name="show_user_form" path="/cust_info.jsp" />
+			<forward name="updated_user" path="/login_success.jsp" />
+			<forward name="display_user_info_page" path="/cust_info_display.jsp" />
+		</action>
+
+		<action input="/manage_accounts.jsp" name="CheckAccountForm"
+			path="/CheckAccountAction" scope="session" type="com.controller.CheckAccountAction"
+			parameter="method">
+			<forward name="checking" path="/checking_account.jsp" />
+			<forward name="savings" path="/savings_account.jsp" />
+			<forward name="failure_checking" path="/checking_account_signup.jsp" />
+			<forward name="failure_savings" path="/savings_account_signup.jsp" />
+		</action>
+
+		<action input="/checking_account.jsp" name="DepositForm" path="/DepositAction"
+			scope="session" type="com.controller.DepositAction" parameter="method">
+			<forward name="success_checking" path="/checking_account.jsp" />
+			<forward name="success_savings" path="/savings_account.jsp" />
+			<forward name="failure_checking" path="/checking_account_signup_fail.jsp" />
+			<forward name="failure_savings" path="/savings_account_signup_fail.jsp" />
+		</action>
+
+
+		<action input="/checking_account.jsp" name="WithdrawalForm"
+			path="/WithdrawalAction" scope="session" type="com.controller.WithdrawalAction"
+			parameter="method">
+			<forward name="success_checking" path="/checking_account.jsp" />
+			<forward name="success_savings" path="/savings_account.jsp" />
+		</action>
+
+		<action input="/reset.jsp" name="RecoverForm" path="/RecoverAction"
+			scope="session" type="com.controller.RecoverAction" parameter="method">
+			<forward name="success" path="/login_success.jsp" />
+			<forward name="failure" path="/reset_fail.jsp" />
+		</action>
+
+		<action input="/checking_acccount.jsp" name="TransactionBean"
+			path="/TransactionAction" scope="session" type="com.controller.TransactionAction"
+			parameter="method">
+			<forward name="success_checking" path="/checking_account_transactions.jsp" />
+			<forward name="success_savings" path="/savings_account_transactions.jsp" />
+		</action>
+	</action-mappings>
+
+	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+
+	<message-resources parameter="com/appresource/ApplicationResource" />
+
+	<!-- ========================= Tiles plugin =============================== -->
+	<!-- This plugin initialize Tiles definition factory. This later can takes 
+		some parameters explained here after. The plugin first read parameters from 
+		web.xml, thenoverload them with parameters defined here. All parameters are 
+		optional. The plugin should be declared in each struts-config file. - definitions-config: 
+		(optional) Specify configuration file names. There can be several comma separated 
+		file names (default: ?? ) - moduleAware: (optional - struts1.1) Specify if 
+		the Tiles definition factory is module aware. If true (default), there will 
+		be one factory for each Struts module. If false, there will be one common 
+		factory for all module. In this later case, it is still needed to declare 
+		one plugin per module. The factory will be initialized with parameters found 
+		in the first initialized plugin (generally the one associated with the default 
+		module). true : One factory per module. (default) false : one single shared 
+		factory for all modules - definitions-parser-validate: (optional) Specify 
+		if xml parser should validate the Tiles configuration file. true : validate. 
+		DTD should be specified in file header (default) false : no validation Paths 
+		found in Tiles definitions are relative to the main context. -->
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+</struts-config>
